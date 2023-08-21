@@ -19,9 +19,9 @@
                     <v-card :elevation="0" max-width="350" class="">
                         <v-container>
                             <div class="logout">
-                                <v-btn class="bg-red-darken-4" variant="tonal"> <router-link
-                                    to="/">Logout</router-link> </v-btn>
-                                    
+                                <form class="logout">
+                                    <v-btn @click="logout()" class="bg-red-darken-4" variant="tonal" type="button"> Logout </v-btn>
+                                </form>
                             <div class="profile-user pt-2 pb-2">
                                 <v-card class="mx-auto" max-width="350" variant="tonal">
                                     <v-card-item class="bg-grey-lighten-5">
@@ -49,7 +49,7 @@
                                         </div>
                                     </v-card-item>
                                     <v-card-actions class="bg-teal-lighten-3">
-                                        <form class="FormSaving">
+                                            <form class="FormSaving">
                                                 <v-btn variant="tonal" @click="PostPaymentMoneyLoan(UserData?.id, UserSavings.id, 'Mandatory Savings',UserSavings.nominal)" type="button">Bayar</v-btn>
                                             </form>                                                                                        
                                     </v-card-actions>                                    
@@ -229,12 +229,7 @@ export default {
         async CallingAPILoan() {
             try {
                 // Retrieve the authentication token from localStorage
-                const authToken = localStorage.getItem('login_token');
-                if (!authToken) {
-                    // Handle the case when the user is not logged in or token is missing
-                    router.push({ path: '/' });
-                    return;
-                }
+                const authToken = localStorage.getItem('login_token');               
                 // Make the API request to fetch user data
                 var Response = await axios.get('http://localhost:8000/api/user', {
                     headers: {
@@ -250,6 +245,7 @@ export default {
             } catch (error) {
                 // Handle errors, e.g., token expired, server error, etc.
                 console.error(error);
+                router.push({ path: '/' });
             }
         },
         PostPaymentMoneyLoan(user_id, bills_id, description, installment_amount) {
@@ -276,6 +272,22 @@ export default {
                 console.error('Payment API error:', error.response);
             });
         },
+        logout(){
+            const authToken = localStorage.getItem('login_token');
+            axios.post('http://localhost:8000/api/logout', null,{
+                headers: {                                    
+                    'Authorization': `Bearer ${authToken}`
+                }
+            })
+            .then(response => {
+                console.log("API". authToken);
+                console.log(response.data);
+                router.push({ path: '/' });
+            })            
+            .catch(error => {
+                console.error('Logout API error:', error.response);
+            });
+        }
     }),
     mounted() {
         // Call the method to fetch user data after successful login
