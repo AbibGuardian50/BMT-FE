@@ -170,8 +170,16 @@ export default {
         };
     },
     methods: {
-        handleSubmit() {
-
+        callingAPIChecker() {
+            const authToken = localStorage.getItem('login_token');
+            console.log(authToken);
+            if(authToken) {
+                router.push({ path: '/homepage' });
+            } else {
+                router.push({ path: '/' });
+            }
+        },
+        handleSubmit() {        
             // Perform form validation here before making the API call
             if (!this.pin) {
                 this.error = 'Please enter pin.';
@@ -207,6 +215,9 @@ export default {
                 });
         },
 
+    },
+    mounted(){
+        this.callingAPIChecker();
     }
 };
 </script>

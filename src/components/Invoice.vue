@@ -67,7 +67,8 @@ async function callingAPILoan() {
     
     CheckoutData.value = responseData.data.Data.Data;
   } catch (error) {
-    console.error(error);
+      console.error(error);
+      router.push({ path: '/homepage' });
   }
 }
 
