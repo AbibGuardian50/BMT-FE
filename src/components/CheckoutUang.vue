@@ -65,6 +65,12 @@ import Homepage from ''
                                     </svg>
                                 </button>
 
+                                <button id="cancel-button" type="button"
+                                    class="group inline-flex w-full items-center justify-center rounded-md bg-red-500 mt-3 pt-2 pr-2 pb-2 pl-2 text-lg font-semibold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-red-800 rounded-xl"
+                                    >
+                                    <router-link to="/homepage">Cancel</router-link>
+                                </button>
+
                             </div>
                         </div>
                     </div>

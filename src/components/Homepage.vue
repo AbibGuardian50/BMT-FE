@@ -153,8 +153,6 @@ body {
     justify-content: center;
 }
 
-.FormMoneyLoan {}
-
 .FormMoneyLoan #SubmitMoneyLoan {
     display: block !important;
 }
