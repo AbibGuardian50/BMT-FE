@@ -45,12 +45,14 @@
                                     <v-card-item class="bg-teal-lighten-3">
                                         <div>
                                             <div class="text-overline mb-1">Tabungan Wajib</div>
-                                            <div class="text-h6 mb-1">RP {{ UserSavings.nominal }}</div>
+                                            <div class="text-h6 mb-1">RP {{ UserSavings.nominal }}</div>                                            
                                         </div>
                                     </v-card-item>
-                                    <!-- <v-card-actions>
-                                        <v-btn variant="outlined"> Button </v-btn>
-                                    </v-card-actions> -->
+                                    <v-card-actions class="bg-teal-lighten-3">
+                                        <form class="FormSaving">
+                                                <v-btn variant="tonal" @click="PostPaymentMoneyLoan(UserData?.id, UserSavings.id, 'Mandatory Savings',UserSavings.nominal)" type="button">Bayar</v-btn>
+                                            </form>                                                                                        
+                                    </v-card-actions>                                    
                                 </v-card>
                             </div>
 
@@ -59,24 +61,15 @@
                                     <v-card-item class="bg-light-green-lighten-1">
                                         <div>
                                             <div class="text-overline mb-1">Pinjaman Uang</div>
-                                            <!-- <div class="text-h6 mb-1">Tipe:{{ MoneyLoanData?.[0].type }}</div>
-                                            <div class="text-caption">Status: <span class="">{{ MoneyLoanData?.[0].payment_status }}</span>, Bulan Ke-{{ MoneyLoanData?.[0].month }}</div>
-                                            <div class="text-caption"> </div>
-                                            <div class="text-caption">Jumlah yang dibayarkan: {{ MoneyLoanData?.[0].installment_amount }}</div> -->
-                                            <!-- <div v-for="month in UserMoneyLoan.month" :key="UserMoneyLoan.month" >{{ month }}</div> -->
-                                            <div class="text-body-1">Bulan ke-{{ UserMoneyLoan.month }}</div>
+                                            <div id="month" class="text-body-1">Bulan ke-{{ UserMoneyLoan.month }}</div>
                                             <div class="text-body-1">Status Pembayaran: {{ UserMoneyLoan.status }}</div>
-                                            <div class="text-body-2">Nominal: Rp {{ UserMoneyLoan.installment_amount }}
-                                            </div>
-
+                                            <div id="amount" class="text-body-2">Nominal: Rp {{ UserMoneyLoan.installment_amount }}</div>                                                                                                                       
                                         </div>
-
-
-
                                     </v-card-item>
                                     <v-card-actions class="bg-light-green-lighten-1">
-                                        <v-btn class="bg-light-green-lighten-1" variant="tonal"> <router-link
-                                                to="/checkoutmoneyloan">Bayar</router-link> </v-btn>
+                                        <form class="FormMoneyLoan">
+                                                <v-btn variant="tonal" @click="PostPaymentMoneyLoan(UserData?.id, UserMoneyLoan.id, 'Loan Fund',UserMoneyLoan.installment_amount)" type="button">Bayar</v-btn>
+                                            </form>                                                                                        
                                     </v-card-actions>
                                 </v-card>
                             </div>
@@ -105,19 +98,18 @@
                                             <div class="text-overline mb-1">Pinjaman Barang</div>
                                             <div class="text-body-1">Bulan ke-{{ UserGoodsLoan.month }}</div>
                                             <div class="text-body-1">Status Pembayaran: {{ UserGoodsLoan.status }}</div>
-                                            <div class="text-body-2">Nominal: Rp {{ UserGoodsLoan.installment_amount }}
-                                            </div>
+                                            <div class="text-body-2">Nominal: Rp {{ UserGoodsLoan.installment_amount }}                                            
+                                            </div>                                            
                                         </div>
                                     </v-card-item>
 
                                     <v-card-actions class="bg-lime-lighten-1">
-                                        <v-btn class="bg-lime-lighten-1" variant="tonal"> <router-link
-                                                to="/checkoutgoodsloan">Bayar</router-link> </v-btn>
+                                        <form class="FormGoodsLoan">
+                                                <v-btn variant="tonal" @click="PostPaymentMoneyLoan(UserData?.id, UserGoodsLoan.id, 'Goods Loan',UserGoodsLoan.installment_amount)" type="button">Bayar</v-btn>
+                                            </form>                                        
                                     </v-card-actions>
                                 </v-card>
                             </div>
-
-
 
                         </v-container>
                     </v-card>
@@ -152,6 +144,14 @@ body {
     /* color: #03a1fc; */
     background-image: linear-gradient(to right, var(--body-background-color-one), var(--body-background-color-two));
     justify-content: center;
+}
+
+.FormMoneyLoan {
+    
+}
+
+.FormMoneyLoan #SubmitMoneyLoan {
+    display: block !important;
 }
 
 .main {
@@ -196,6 +196,7 @@ body {
 
 <script>
 import axios from 'axios';
+
 export default {
     data: () => ({
         UserData: null,
@@ -251,6 +252,30 @@ export default {
                 console.error(error);
             }
         },
+        PostPaymentMoneyLoan(user_id, bills_id, description, installment_amount) {
+            const authToken = localStorage.getItem('login_token');
+            const paymentData = {
+                user_id: user_id,
+                bills_id: bills_id,
+                description: description,
+                nominal: installment_amount,
+                status: 'Unpaid'
+            };
+
+            axios.post('http://localhost:8000/api/payments', paymentData, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authToken}`
+                }
+            })
+            .then(response => {
+                console.log(response.data);
+                router.push({ path: '/checkoutmoneyloan' });
+            })            
+            .catch(error => {
+                console.error('Payment API error:', error.response);
+            });
+        },
     }),
     mounted() {
         // Call the method to fetch user data after successful login
@@ -260,4 +285,7 @@ export default {
     methods: {
     }
 }
+</script>
+<script setup>
+import router from '@/router';
 </script>
