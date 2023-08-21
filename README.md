@@ -12,7 +12,7 @@ npx tailwindcss init
 ![](readme.jpeg)
 
 
-### Compiles and hot-reloads for development
+### Run Server
 
 ```
 # npm
