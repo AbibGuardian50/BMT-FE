@@ -38,6 +38,7 @@
             </tfoot>
         </table>
         <div class="text-gray-700 mb-2">Terima Kasih!</div>
+      <v-btn class="bg-blue-darken-3" variant="tonal" type="button"><router-link to="/homepage">Kembali</router-link></v-btn>
         <br>
     </div>
 </template>
