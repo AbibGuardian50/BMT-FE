@@ -54,23 +54,29 @@ import Homepage from ''
                             </div>
 
                             <div class="mt-6 text-center">
-                                <button id="pay-button" type="button"
-                                    class="group inline-flex w-full items-center justify-center rounded-md bg-orange-500 px-6 py-4 text-lg font-semibold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800 rounded-xl"
-                                    @click="handleCheckout">
-                                    Checkout
-                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                        class="group-hover:ml-8 ml-4 h-6 w-6 transition-all" fill="none" viewBox="0 0 24 24"
-                                        stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                                    </svg>
-                                </button>
+                                <div class="flex justify-center space-x-4">
+                                    <div class="w-1/2">
+                                        <button id="cancel-button" type="button"
+                                            class="group inline-flex items-center justify-center rounded-md bg-red-500 w-full mt-3 px-6 py-4 text-lg font-semibold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-red-800 rounded-xl">
+                                            <router-link to="/homepage" class="flex items-center justify-center h-full">
+                                                Cancel
+                                            </router-link>
+                                        </button>
+                                    </div>
 
-                              <button id="cancel-button" type="button"
-                                    class="group inline-flex w-full items-center justify-center rounded-md bg-red-500 mt-3 pt-2 pr-2 pb-2 pl-2 text-lg font-semibold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-red-800 rounded-xl"
-                                    >
-                                    <router-link to="/homepage">Cancel</router-link>
-                                </button>
-
+                                    <div class="w-1/2">
+                                        <button id="pay-button" type="button"
+                                            class="group inline-flex items-center justify-center rounded-md bg-orange-500 w-full mt-3 px-6 py-4 text-lg font-semibold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800 rounded-xl"
+                                            @click="handleCheckout">
+                                            Checkout
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="group-hover:ml-8 ml-4 h-6 w-6 transition-all" fill="none" viewBox="0 0 24 24"
+                                                stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -110,6 +116,7 @@ async function callingAPILoan() {
     CheckoutData.value = responseData.data.Data.Data;
   } catch (error) {
     console.error(error);
+    router.push({ path: '/homepage' });
   }
 }
 

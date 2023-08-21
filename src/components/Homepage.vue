@@ -282,6 +282,7 @@ export default {
             .then(response => {
                 console.log("API". authToken);
                 console.log(response.data);
+                localStorage.removeItem('login_token');
                 router.push({ path: '/' });
             })            
             .catch(error => {
