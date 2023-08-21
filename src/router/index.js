@@ -64,6 +64,16 @@ const routes = [
         component: () => import(/* webpackChunkName: "*/ '@/views/CheckoutUang.vue'),
       }
     ]
+  },
+  {
+    path: '/invoice',
+    children: [
+      {
+        path: '',
+        name: 'invoice',
+        component: () => import(/* webpackChunkName: "*/ '@/views/Invoice.vue'),
+      }
+    ]
   }
 
   // {

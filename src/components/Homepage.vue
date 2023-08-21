@@ -20,7 +20,7 @@
                         <v-container>
                             <div class="logout">
                                 <v-btn class="bg-red-darken-4" variant="tonal"> <router-link
-                                    to="/checkoutmoneyloan">Logout</router-link> </v-btn>
+                                    to="/">Logout</router-link> </v-btn>
                                     
                             <div class="profile-user pt-2 pb-2">
                                 <v-card class="mx-auto" max-width="350" variant="tonal">
