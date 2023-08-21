@@ -1,0 +1,14 @@
+{
+    "users": [
+        {
+            "id": 1,
+            "pin": 233456,
+            "nama": "Muhammad Abieb Basnuril"
+        },
+        {
+            "id": 2,
+            "pin": 287653,
+            "nama": "Dadang Sudadang"
+        }
+    ]
+}
