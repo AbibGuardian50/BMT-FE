@@ -115,9 +115,7 @@ const handleCheckout = () => {
     const transactionToken = CheckoutData.value.snap_token;
     window.snap.pay(transactionToken, {
       onSuccess: function(result){
-        window.location.href = '/homepage'
-        alert("Payment success!");
-        console.log(result);
+        window.location.href = '/invoice'                
       },
       onPending: function(result){
         alert("Waiting for payment!");

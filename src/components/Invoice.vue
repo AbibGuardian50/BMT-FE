@@ -5,25 +5,18 @@
         <div class="flex justify-between mb-6">
             <h1 class="text-lg font-bold">Invoice</h1>
             <div class="text-gray-700">
-                <div>Payment Id: <!-- {{ panggil API payment_id }} -->243545</div>
-                <div>Bills Id<!-- {{ panggil API bills_id }} -->: INV12345</div>
+                <div>Payment Id: <!-- {{ panggil API payment_id }} -->#{{ CheckoutData?.id }}</div>
+                <div>Bills Id<!-- {{ panggil API bills_id }} -->: #{{ CheckoutData?.bills_id }}</div>
             </div>
         </div>
         <table class="w-full mb-8">
             <thead>
                 <tr>
                     <th class="text-left font-bold text-gray-700">Status Pembayaran</th>
-                    <th class="text-right font-bold text-gray-700"><!--Panggil API Status-->Telah Dibayar</th>
+                    <th class="text-right font-bold text-gray-700"><!--Panggil API Status-->{{ CheckoutData?.status }}</th>
                 </tr>
             </thead>
-        </table>
-        <!-- <div class="mb-8">
-            <h2 class="text-lg font-bold mb-4">Status Pembayaran</h2>
-            <div class="text-gray-700 mb-2">John Doe</div>
-            <div class="text-gray-700 mb-2">123 Main St.</div>
-            <div class="text-gray-700 mb-2">Anytown, USA 12345</div>
-            <div class="text-gray-700">johndoe@example.com</div>
-        </div> -->
+        </table>        
         <table class="w-full mb-8">
             <thead>
                 <tr>
@@ -33,17 +26,49 @@
             </thead>
             <tbody>
                 <tr>
-                    <td class="text-left text-gray-700"><!-- {{ panggil API Deskripsi }} -->Pinjaman Uang</td>
-                    <td class="text-right text-gray-700"><!-- {{ panggil API nominal }} -->  Rp 125.000</td>
+                    <td class="text-left text-gray-700"><!-- {{ panggil API Deskripsi }} -->{{ CheckoutData?.description }}</td>
+                    <td class="text-right text-gray-700"><!-- {{ panggil API nominal }} -->  Rp {{ CheckoutData?.nominal }}</td>
                 </tr>
             </tbody>
             <tfoot>
                 <tr>
                     <td class="text-left font-bold text-gray-700">Nominal</td>
-                    <td class="text-right font-bold text-gray-700"><!-- {{ panggil API nominal }} -->  Rp 125.000</td>
+                    <td class="text-right font-bold text-gray-700"><!-- {{ panggil API nominal }} -->  Rp {{ CheckoutData?.nominal }}</td>
                 </tr>
             </tfoot>
         </table>
         <div class="text-gray-700 mb-2">Terima Kasih!</div>
+        <br>
     </div>
 </template>
+
+<script setup>
+import router from '@/router';
+import axios from 'axios';
+import { ref } from 'vue';
+
+const CheckoutData = ref(null);
+
+// Fungsi untuk memanggil API dan mengisi data CheckoutData
+async function callingAPILoan() {
+  try {
+    const authToken = localStorage.getItem('login_token');
+    if (!authToken) {
+      router.push({ path: '/' });
+      return;
+    }
+    
+    const responseData = await axios.get('http://localhost:8000/api/checkoutData', {
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+    });
+    
+    CheckoutData.value = responseData.data.Data.Data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+callingAPILoan();
+</script>
